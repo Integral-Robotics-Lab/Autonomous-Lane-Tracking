@@ -4,7 +4,7 @@
 
 ## Project Overview
 
-This project aims to set up and calibrate a TurtleBot3 Burger robot for autonomous driving using ROS 1 Noetic. The setup includes installing necessary packages, calibrating the camera, and configuring lane detection. By following this guide, you will be able to make your TurtleBot3 navigate autonomously within predefined lanes using a Raspberry Pi camera module.
+This project aims to set up and calibrate a TurtleBot3 Burger robot for autonomous driving using ROS 1 Noetic. The setup includes installing necessary packages, calibrating the camera, configuring lane detection, and implementing autonomous driving capabilities. By following this guide, you will be able to make your TurtleBot3 navigate autonomously within predefined lanes using a Raspberry Pi camera module.
 
 ## Acknowledgment
 
@@ -110,6 +110,8 @@ roslaunch turtlebot3_autorace_camera extrinsic_camera_calibration.launch mode:=c
 4. Use `rqt` and `rqt_reconfigure` to adjust parameters and save to YAML files.
 
 ### 3. Lane Detection
+
+#### Calibration and Configuration
 1. Place TurtleBot3 on the track.
 2. Launch `roscore` on Remote PC:
 ```sh
@@ -121,7 +123,23 @@ roslaunch turtlebot3_autorace_camera raspberry_pi_camera_publish.launch
 ```
 4. Launch lane detection nodes on Remote PC:
 ```sh
-roslaunch turtlebot3_autorace_detect lane_detection.launch
+roslaunch turtlebot3_autorace_detect detect_lane.launch mode:=calibration
+```
+5. Open `rqt` and launch `rqt_reconfigure`:
+```sh
+rqt
+rosrun rqt_reconfigure rqt_reconfigure
+```
+6. Adjust parameters in `detect_lane` for line color filtering.
+
+#### Lane Following Operation
+1. Start lane following:
+```sh
+roslaunch turtlebot3_autorace_driving turtlebot3_autorace_control_lane.launch
+```
+2. Verify results using:
+```sh
+roslaunch turtlebot3_bringup turtlebot3_robot.launch
 ```
 
 ## Author
